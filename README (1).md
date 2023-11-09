@@ -1,3 +1,0 @@
-# README
-
-"# shark-s-book"
