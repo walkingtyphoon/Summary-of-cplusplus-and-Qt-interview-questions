@@ -1,3 +1,3 @@
 # Table of contents
 
-* [C++]
+* [C++基础]
