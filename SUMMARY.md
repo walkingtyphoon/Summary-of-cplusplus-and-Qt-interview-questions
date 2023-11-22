@@ -1,4 +1,4 @@
 # Table of contents
 
-* [C++基础](README.md)
+* [ A collection of C++ interview questions.](README.md)
 * [README](<README (1).md>)
