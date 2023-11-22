@@ -2,6 +2,8 @@
 
 ## 信号和槽机制? <mark style="color:red;">提问次数: 5次</mark>
 
+***
+
 ## 信号和槽机制类似于哪种设计模式? <mark style="color:red;">提问次数: 3次</mark>
 
 ## 对多态的理解 <mark style="color:red;">提问次数:3 次</mark>
