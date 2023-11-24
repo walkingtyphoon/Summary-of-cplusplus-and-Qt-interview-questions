@@ -1,6 +1,6 @@
 # &#x20;A collection of C++ interview questions.
 
-## 信号和槽机制? <mark style="color:red;">提问次数: 5次</mark>
+## 信号和槽机制? <mark style="color:red;">提问次数: 6次</mark>
 
 答:信号和槽机制是`Qt`中特有的一种机制,其本质是通过一种观察者设计模式的实现,其中`信号`通常是用于触发`槽函数`的一种特殊函数,不需要实现因为它是由底层的元对象系统管理的,而`槽函数`需要我们自己来实现,因为这是我们需要实现的功能,其中信号由`emit`触发,槽函数由信号的触发而调用,两者之间联系的建立是使用`connect`函数,它是源自于其父类`QObject`,使用它的时候需要在类的最开始位置声明`Q_OBJECT`宏,而且当前类还必须要集成`QObject`或者它子类,然后通过connect进行绑定,connect函数有五个参数,其中第一个参数为信号的发出者,第二个为发出的信号,第三个为信号的接收者,第四个为当信号触发时,需要执行的槽函数,第五个参数是关联的类型,其分类有:自动关联,直接关联,唯一关联,队列关联,阻塞队列关联.
 
@@ -142,9 +142,12 @@
 
         return 0;
     }
-
     ```
     {% endcode %}
+
+## `STL`的常用容器,以及使用场景 <mark style="color:red;">提问次数: 4次</mark>
+
+## `vector`和`list`的区别是什么? <mark style="color:red;">提问次数4次</mark>
 
 ***
 
@@ -152,11 +155,15 @@
 
 ## 为什么会发生内存泄漏? <mark style="color:red;">提问次数: 3次</mark>
 
+## 如何实现线程间的通信? <mark style="color:red;">提问次数: 3次</mark>
+
 ## 单例模式的运用和实现 <mark style="color:red;">提问次数: 3次</mark>
 
-## `STL`的常用容器,以及使用场景 <mark style="color:red;">提问次数: 3次</mark>
-
 ## 信号和槽机制类似于哪种设计模式? <mark style="color:red;">提问次数: 3次</mark>
+
+## 具体说说观察者模式? <mark style="color:red;">提问次数: 3次</mark>
+
+## 多态,虚函数,纯虚函数,虚函数指针,虚函数表之间的联系  <mark style="color:red;">提问次数:3次</mark>
 
 ***
 
@@ -168,21 +175,15 @@
 
 ## 指针和引用的区别 <mark style="color:red;">提问次数: 2次</mark>
 
-## 如何实现线程间的通信? <mark style="color:red;">提问次数: 2次</mark>
-
 ## 你对`static`的理解 <mark style="color:red;">提问次数: 2次</mark>
 
 ## `Qt`中连接数据库的过程,以及如何显示数据? <mark style="color:red;">提问次数: 2次</mark>
 
 ## `c++`的内存结构是什么样的? <mark style="color:red;">提问次数: 2次</mark>
 
-## 多态,虚函数,纯虚函数,虚函数指针,虚函数表之间的联系  <mark style="color:red;">提问次数:2次</mark>
-
 ## 什么情况下`vector`的迭代器会失效？ <mark style="color:red;">提问次数: 2次</mark>
 
 ## `Map`的底层,`Map`有无排列顺序,怎么让他的顺序变为降序? <mark style="color:red;">提问次数: 2次</mark>
-
-## 具体说说观察者模式? <mark style="color:red;">提问次数: 2次</mark>
 
 ***
 
@@ -310,8 +311,6 @@
 
 ## 构造函数里能放虚函数吗? <mark style="color:red;">提问次数1次</mark>
 
-## `vector`和`list`的区别是什么? <mark style="color:red;">提问次数1次</mark>
-
 ## `set`和`map`的区别是什么? <mark style="color:red;">提问次数1次</mark>
 
 ## 类型转换的分类? <mark style="color:red;">提问次数1次</mark>
@@ -334,6 +333,12 @@
 
 ## `Linux`下如何创建文件 <mark style="color:red;">提问次数: 1次</mark>
 
-##
+## 动态链接，有没有自己写过动态链接库. <mark style="color:red;">提问次数: 1次</mark>
 
-##
+## 平衡二叉树的特点是什么? <mark style="color:red;">提问次数: 1次</mark>
+
+## map和unorderedmap的区别 <mark style="color:red;">提问次数: 1次</mark>
+
+## 数据库主键可以重复吗，有什么用 <mark style="color:red;">提问次数: 1次</mark>
+
+## 视图的特点 <mark style="color:red;">提问次数: 1次</mark>
