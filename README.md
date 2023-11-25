@@ -147,21 +147,226 @@
 
 ## `STL`的常用容器,以及使用场景 <mark style="color:red;">提问次数: 4次</mark>
 
+1. ### vector
+   1.  ### 容器介绍:&#x20;
+
+       `vector`底层是基于一个数组实现的动态数组,其本质为一个单端数组只能在尾部操作数据,默认是有序的是按照插入元素的顺序,而且允许重复
+   2.  ### 访问方式:
+
+       `vector`可以使用随机访问,也支持使用迭代器访问
+   3.  ### 增删元素的特点:
+
+       在尾部增加元素的时候效率比较高,但是在头部或者中间插入元素的时候效率比较低,因为涉及到移位操作,所以在头部和中间增删元素的时候效率比较低
+2. ### List
+   1.  ### 容器介绍:
+
+       `List`的底层是双向循环链表来实现的,它的元素是有序的按照插入的顺序,可以重复
+   2.  ### 访问方式:
+
+       只能通迭代器访问,不能随机访问,只能使用`++`/`--`,不能使用`+5`/`+6`这种操作
+   3.  ### 增删元素的特点
+
+       增删元素效率比较,只需要前后元素进行连接,然后将当前节点空间释放即可,但是查询指点元素时效率比较低,简单地说就是增删效率比较高,查询元素以及进行修改时效率比较低,因为要先找到它,才能进行修改
+3. ### queue
+   1.  ### 容器介绍:
+
+       `queue`是受限容器中的一种,其本质是一种单端队列,队列的特点的话就是先进先出,后进后出,队尾进队头出.元素是有序的,按照入队的顺序,元素可以重复
+   2.  ### 访问方式:
+
+       只能在队头出队,在队尾入队,没有迭代器,不能使用随机访问元素,只能使用`pop()`来实现出队效果,以及`push()`来实现入队效果
+   3.  ### 增删元素的特点:
+
+       单端队列的操作元素方式单一,在队头查询删除效率比较高,队尾增加效率比较高
+
+
+4. ### stack
+   1.  ### 容器介绍
+
+       也是一种受限容器,它的特点是先进后出,元素是从栈顶使用栈帧压入栈底,取元素的时候,只能从栈顶逐个拿出,栈中的元素的顺序是按照插入的元素排列的
+   2.  ### 访问方式
+
+       栈的访问方式是只能从栈顶取出元素,使用`pop()`,使用`top()`来查看栈顶元素,以及使用`push()`来将元素压入栈底,没有迭代器也不支持随机访问
+   3.  ### 增删元素的特点
+
+       栈只能在栈顶弹出,以及压入元素到栈底所以在栈顶的增加弹出以及访问元素的效率比较高,栈底和栈中的元素访问效率就很差
+5. ### map
+   1.  ### 容器介绍
+
+       `map`的底层是基于红黑树实现的,其中存储的是一个对组,对组中包含的是`key,value`形式,元素顺序的话是按照键的顺序排列的,有序,而且元素不允许重复,每个键是唯一,如果插入一个已经存在的键，它将会更新该键对应的值，而不是保留旧值。
+   2.  ### 访问方式
+
+       `map`的访问方式是通过迭代器访问遍历对组,通过对组的`first`和`second`来获取键和值
+   3.  ### 增删元素的特点
+
+       查找效率比较高,但是增删改的效率比较低
+6. ## set
+   1.  ### 容器介绍
+
+       `set`的底层也是红黑树实现的,是一种特殊二叉排序树,元素是`有序的(按照键的)而且不重复,`如果插入一个已经存在的键，它将会更新该键对应的值，而不是保留旧值。
+   2.  ### 访问方式
+
+       只能通过迭代器访问,不能随机访问,添加的话使用`insert()`
+   3.  ### 增删元素的特点
+
+       它添加,查询,删除元素的效率比较高,但是修改的效率不太高
+
 ## `vector`和`list`的区别是什么? <mark style="color:red;">提问次数4次</mark>
+
+1. `vector`的本质是一个单端数组,底层是一个动态数组,而`list`的本质是双向循环链表
+2. 在访问方式方面,`vector`可以通过`迭代器`,以及`中括号`和`at()`来实现访问元素,但是`list`只能使用迭代器访问元素
+3. 在`vector`中在头部以及中间增删元素的效率比较低,而尾部的增删效率比较高,容器本身查找效率比较高,`list`的话是增删效率比较高,但是查找和修改的效率比较低,因为都需要先遍历找到元素再操作
+4. `vector`和`list`的元素顺序都是有序的不过都是按照插入的顺序,而且元素也可以重复,这是两者相同的地方
 
 ***
 
 ## `new`和`malloc`的区别? <mark style="color:red;">提问次数: 3次</mark>
 
+1. 首先两者都是用来在堆上开辟内存空间进行分配的一种实现方式
+2. `new`是一个关键字,而`malloc`则是一个第三方类库中的函数
+3. `new`的话会调用类的构造函数,当`delete`的时候也会调用其对应的`析构函数`,而malloc的话则不会,只会开辟内存空间,以及释放内存空间
+4. `new`开辟内存空间失败后会抛出 `std::bad_alloc` 异常，可以通过 `try-catch` 块来捕获异常并处理,而`malloc` 在分配内存失败时会返回空指针（`NULL`），我们可以通过检查返回值来判断是否分配成功
+5. `new`是`c++`中提供的,而 `malloc` 是`c`标准库中的函数，位于`<cstdlib>` 头文件中,但是两者都可以在`c++`中使用
+6. `new`可以被重载,允许自定义的内存管理策略.而`malloc`是第三方的不支持重载
+
 ## 为什么会发生内存泄漏? <mark style="color:red;">提问次数: 3次</mark>
+
+1. 开辟的内存空间没有释放
+2. 访问了未定义的空间
+3. 对象之间循环引用
+4. 以及程序出现了异常,导致内存泄漏
 
 ## 如何实现线程间的通信? <mark style="color:red;">提问次数: 3次</mark>
 
+1.  ### 使用互斥锁
+
+    使用互斥锁的话就需要先创建一个`std::mutex`,然后使用`std::lock_guard`来给他加上互斥锁,在需要加锁的位置,当超出作用域就会自动释放
+2.  ### 条件变量
+
+    条件变量的话就实现创建一个`std::mutex`,然后使用创建一个互斥锁或者唯一锁,然后创建一个条件变量的对象,将它添加到等待的方法中,然后再写上需要执行的函数也可以使用`lambda`表达式来替换,然后等待释放锁,以及被唤醒
+3.  ### 信号量
+
+    没怎么用过,记不清楚了
+
 ## 单例模式的运用和实现 <mark style="color:red;">提问次数: 3次</mark>
+
+单例模式的话是一种创建型设计模式,他分为三种:饿汉式,懒汉式,以及局部静态变量,然后饿汉式的话就是直接创建一个私有的全局对象,然后再创建一个静态成员函数,然后通过这个方法就可以获取当前类的一个唯一实例对象,懒汉式的话,则是在调用的时候才创建对象并返回对象的实例,而局部静态变量的话,则是创建一个局部静态变量的对象,然后进行返回,单例模式本质不是线程安全的,我们需要通过使用双重判断并加锁来达到线程安全的目的
+
+1.  ### 饿汉式
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <iostream>
+
+    class SingletonHungry {
+    private:
+        static SingletonHungry instance;
+
+        SingletonHungry() {
+            std::cout << "SingletonHungry instance created." << std::endl;
+        }
+
+    public:
+        static SingletonHungry& getInstance() {
+            return instance;
+        }
+
+        // Other member functions...
+    };
+
+    SingletonHungry SingletonHungry::instance;  // Initialize the static member
+
+    int main() {
+        SingletonHungry& obj1 = SingletonHungry::getInstance();
+        SingletonHungry& obj2 = SingletonHungry::getInstance();
+
+        // obj1 and obj2 refer to the same instance
+        return 0;
+    }
+    ```
+    {% endcode %}
+2.  ### 懒汉式
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <iostream>
+    #include <mutex>
+
+    class SingletonLazy {
+    private:
+        static SingletonLazy* instance;
+        static std::mutex mtx;
+
+        SingletonLazy() {
+            std::cout << "SingletonLazy instance created." << std::endl;
+        }
+
+    public:
+        static SingletonLazy& getInstance() {
+            std::lock_guard<std::mutex> lock(mtx);
+            if (instance == nullptr) {
+                instance = new SingletonLazy();
+            }
+            return *instance;
+        }
+
+        // Other member functions...
+
+        ~SingletonLazy() {
+            delete instance;
+        }
+    };
+
+    SingletonLazy* SingletonLazy::instance = nullptr;
+    std::mutex SingletonLazy::mtx;
+
+    int main() {
+        SingletonLazy& obj1 = SingletonLazy::getInstance();
+        SingletonLazy& obj2 = SingletonLazy::getInstance();
+
+        // obj1 and obj2 refer to the same instance
+        return 0;
+    }
+    ```
+    {% endcode %}
+3.  ### 局部静态变量
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <iostream>
+
+    class SingletonLocalStatic {
+    private:
+        SingletonLocalStatic() {
+            std::cout << "SingletonLocalStatic instance created." << std::endl;
+        }
+
+    public:
+        static SingletonLocalStatic& getInstance() {
+            static SingletonLocalStatic instance;  // Local static variable
+            return instance;
+        }
+
+        // Other member functions...
+    };
+
+    int main() {
+        SingletonLocalStatic& obj1 = SingletonLocalStatic::getInstance();
+        SingletonLocalStatic& obj2 = SingletonLocalStatic::getInstance();
+
+        // obj1 and obj2 refer to the same instance
+        return 0;
+    }
+
+    ```
+    {% endcode %}
 
 ## 信号和槽机制类似于哪种设计模式? <mark style="color:red;">提问次数: 3次</mark>
 
+观察者模式
+
 ## 具体说说观察者模式? <mark style="color:red;">提问次数: 3次</mark>
+
+我不常用,所以记不清了
 
 ## 多态,虚函数,纯虚函数,虚函数指针,虚函数表之间的联系  <mark style="color:red;">提问次数:3次</mark>
 
@@ -171,9 +376,38 @@
 
 ## 普通成员函数和静态成员函数的区别是什么? <mark style="color:red;">提问次数: 2次</mark>
 
+1.  ### 调用方式不同:
+
+    普通成员函数通过对象或者调用,而静态成员函数通过类名调用,普通函数使用`.`或者`->`,而静态成员函数则是通过`::`来调用
+2.  ### 生命周期不同
+
+    普通成员函数和对象的生命周期相同,当对象被销毁后,它也就不存在了,而静态的话存在于程序运行的整个过程中
+3.  ### 关于`this`指针
+
+    普通成员函数可以使用`this`指针,而静态成员函数则不可以使用`this`指针
+
 ## Qt中你在哪些地方使用过多线程? <mark style="color:red;">提问次数: 2次</mark>
 
+比如当我们制作一些游戏的时候比如声音和动画特效同步的时候,以及使用定时器执行定时任务
+
 ## 指针和引用的区别 <mark style="color:red;">提问次数: 2次</mark>
+
+1.  ### 指针本身是一个变量名,而引用则是一个别名机制,它在内存中不占用内存空间
+
+
+2.  ### 指针初始化以后可以被修改,但是引用初始化以后就不可以修改
+
+
+3.  ### 指针使用的领域比较广泛,比如全局,局部变量,以及函数的形式参数上,而引用通常是使用在函数的形式参数上
+
+
+4.  ### 而且指针可以为空,但是引用不可以为空
+
+
+5.  ### 指针的话可以指向数组的首地址,甚至是函数,而引用的话在声明是必须初始化,所以不能像指针那样灵活可以指向数组和函数
+
+
+6. ### 关于操作方式的话.指针可以使用`&`获取变量或者对象的地址,使用`*`进行解引用获取其中的值,而引用则不需要可以直接操作
 
 ## 你对`static`的理解 <mark style="color:red;">提问次数: 2次</mark>
 
