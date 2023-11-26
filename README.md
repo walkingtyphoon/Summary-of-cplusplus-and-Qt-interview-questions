@@ -458,6 +458,24 @@ c++的内存结构的话主要分为五个区:
 
 ## `Qt`中连接数据库的过程,以及如何显示数据? <mark style="color:red;">提问次数: 2次</mark>
 
+1. ### 获取所有可以使用的驱动字符串列表
+2. ### 声明一个`QSqlDatabase`对象
+3. ### 遍历数据库驱动字符串列表,如果当前的字符串等于我们需要的驱动就使用当前的字符串来初始化`QSqlData`对象,使用`QSqlDatabase::addDatabase(驱动名称);`
+4. ### 然后设置数据库的配置信息比如主机名,端口,用户,密码,数据库名等
+5. ### 然后就可以使用QSqlDatabase对象的open()判断是否打开数据库
+6. ### 如果打开就正常进行数据库操作,没有的话就调试是不是驱动,以及配置信息或者代码出错
+7. ### 显示数据的话可以使用`QSqlQuery`对象的`exec(SQL字符串)`来执行基本的`SQL`语句,可以使用:
+   1. ### QSqlTableModel ： 创建一个可编辑的表格式数据模型（注意：只能应用于单表）
+      1. 使用步骤的话就是先创建模型关联模式数据表,比如`auto stuModel = new QSqlTableModel(this);`
+      2. 然后设置使用的数据表,比如`stuModel->setTable("表名");`
+      3. 设置好之后我们就可以执行查询操作,显示数据了,比如:`stuModel->select();`
+      4. 然后也可以直接将查询出来的数据填充到表格视图中: `ui->stuTableView->setModel(stuModel);`
+   2. ### QTableView ：常见一个表格视图，可以将 QSqlTableModel 创建的模型自动填充到表格中
+   3. ### QSqlRelationalTableModel ：创建关联数据类型的数据模型
+      1. 先创建关联表模型对象,比如:`auto stuTableModel = new QSqlRelationalTableModel(this);`
+      2. 然后使用`setTable("表名");`来设置使用的第一张表
+      3. 然后使用`setRelation(6, QSqlRelation("dept", "dno", "dname"));`来设置关联信息第一个参数是当前表中用来关联的列名,而第二个参数则使用过一个`QSqlRelation()`来创建一个新的`QSqlRealtion`来设置关联关系,第一个参数是表名,第二个是这个表用来关联的列名,第三个参数是要替换成的列名
+
 ## 什么情况下`vector`的迭代器会失效？ <mark style="color:red;">提问次数: 2次</mark>
 
 我们在获取迭代器后,又对原来的动态数组进行了增删操作,而继续使用获取的迭代器的时候这是迭代器会失效,对于迭代器失效我们可以使用`insert(尾部迭代器,元素)` 来返回一个新的迭代器,以及使用`erase()`来擦除元素,返回一个新的迭代器,放置迭代器失效
