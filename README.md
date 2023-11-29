@@ -1,10 +1,91 @@
 # &#x20;A collection of C++ interview questions.
 
-## 信号和槽机制? <mark style="color:red;">提问次数: 6次</mark>
+## 信号和槽机制? <mark style="color:red;">提问次数: 7次</mark>
 
 答:信号和槽机制是`Qt`中特有的一种机制,其本质是通过一种观察者设计模式的实现,其中`信号`通常是用于触发`槽函数`的一种特殊函数,不需要实现因为它是由底层的元对象系统管理的,而`槽函数`需要我们自己来实现,因为这是我们需要实现的功能,其中信号由`emit`触发,槽函数由信号的触发而调用,两者之间联系的建立是使用`connect`函数,它是源自于其父类`QObject`,使用它的时候需要在类的最开始位置声明`Q_OBJECT`宏,而且当前类还必须要继承`QObject`或者它子类,然后通过connect进行绑定,connect函数有五个参数,其中第一个参数为信号的发出者,第二个为发出的信号,第三个为信号的接收者,第四个为当信号触发时,需要执行的槽函数,第五个参数是关联的类型,其分类有:自动关联,直接关联,唯一关联,队列关联,阻塞队列关联.
 
-## 对多态的理解 <mark style="color:red;">提问次数:5次</mark>
+## `vector`和`list`的区别是什么? <mark style="color:red;">提问次数7次</mark>
+
+1. ### `vector`的本质是一个单端数组,底层是一个动态数组,而`list`的本质是双向循环链表
+2. ### 在访问方式方面,`vector`可以通过`迭代器`,以及`中括号`和`at()`来实现访问元素,但是`list`只能使用迭代器访问元素
+3. ### 在`vector`中在头部以及中间增删元素的效率比较低,而尾部的增删效率比较高,容器本身查找效率比较高,`list`的话是增删效率比较高,但是查找和修改的效率比较低,因为都需要先遍历找到元素再操作
+4. ### `vector`和`list`的元素顺序都是有序的不过都是按照插入的顺序,而且元素也可以重复,这是两者相同的地方
+
+## `STL`的常用容器,以及使用场景 <mark style="color:red;">提问次数: 8次</mark>
+
+1. ### vector
+   1.  ### 容器介绍:&#x20;
+
+       `vector`底层是基于一个数组实现的动态数组,其本质为一个单端数组只能在尾部操作数据,默认是有序的是按照插入元素的顺序,而且允许重复
+   2.  ### 访问方式:
+
+       `vector`可以使用随机访问,也支持使用迭代器访问
+   3.  ### 增删元素的特点:
+
+       在尾部增加元素的时候效率比较高,但是在头部或者中间插入元素的时候效率比较低,因为涉及到移位操作,所以在头部和中间增删元素的时候效率比较低
+2. ### List
+   1.  ### 容器介绍:
+
+       `List`的底层是双向循环链表来实现的,它的元素是有序的按照插入的顺序,可以重复
+   2.  ### 访问方式:
+
+       只能通迭代器访问,不能随机访问,只能使用`++`/`--`,不能使用`+5`/`+6`这种操作
+   3.  ### 增删元素的特点
+
+       增删元素效率比较,只需要前后元素进行连接,然后将当前节点空间释放即可,但是查询指点元素时效率比较低,简单地说就是增删效率比较高,查询元素以及进行修改时效率比较低,因为要先找到它,才能进行修改
+3. ### queue
+   1.  ### 容器介绍:
+
+       `queue`是受限容器中的一种,其本质是一种单端队列,队列的特点的话就是先进先出,后进后出,队尾进队头出.元素是有序的,按照入队的顺序,元素可以重复
+   2.  ### 访问方式:
+
+       只能在队头出队,在队尾入队,没有迭代器,不能使用随机访问元素,只能使用`pop()`来实现出队效果,以及`push()`来实现入队效果
+   3.  ### 增删元素的特点:
+
+       单端队列的操作元素方式单一,在队头查询删除效率比较高,队尾增加效率比较高
+
+
+4. ### stack
+   1.  ### 容器介绍
+
+       也是一种受限容器,它的特点是先进后出,元素是从栈顶使用栈帧压入栈底,取元素的时候,只能从栈顶逐个拿出,栈中的元素的顺序是按照插入的元素排列的
+   2.  ### 访问方式
+
+       栈的访问方式是只能从栈顶取出元素,使用`pop()`,使用`top()`来查看栈顶元素,以及使用`push()`来将元素压入栈底,没有迭代器也不支持随机访问
+   3.  ### 增删元素的特点
+
+       栈只能在栈顶弹出,以及压入元素到栈底所以在栈顶的增加弹出以及访问元素的效率比较高,栈底和栈中的元素访问效率就很差
+5. ### map
+   1.  ### 容器介绍
+
+       `map`的底层是基于红黑树实现的,其中存储的是一个对组,对组中包含的是`key,value`形式,元素顺序的话是按照键的顺序排列的,有序,而且元素不允许重复,每个键是唯一,如果插入一个已经存在的键，它将会更新该键对应的值，而不是保留旧值。
+   2.  ### 访问方式
+
+       `map`的访问方式是通过迭代器访问遍历对组,通过对组的`first`和`second`来获取键和值
+   3.  ### 增删元素的特点
+
+       查找效率比较高,但是增删改的效率比较低
+6. ## set
+   1.  ### 容器介绍
+
+       `set`的底层也是红黑树实现的,是一种特殊二叉排序树,元素是`有序的(按照键的)而且不重复,`如果插入一个已经存在的键，它将会更新该键对应的值，而不是保留旧值。
+   2.  ### 访问方式
+
+       只能通过迭代器访问,不能随机访问,添加的话使用`insert()`
+   3.  ### 增删元素的特点
+
+       它添加,查询,删除元素的效率比较高,但是修改的效率不太高
+
+## `new`和`malloc`的区别? <mark style="color:red;">提问次数: 9</mark>
+
+1. ### 首先两者都是用来在堆上开辟内存空间进行分配的一种实现方式
+2. ### `new`是一个关键字,而`malloc`则是一个第三方类库中的函数
+3. ### `new`的话会调用类的构造函数,当`delete`的时候也会调用其对应的`析构函数`,而malloc的话则不会,只会开辟内存空间,以及释放内存空间
+4. ### `new`开辟内存空间失败后会抛出 `std::bad_alloc` 异常，可以通过 `try-catch` 块来捕获异常并处理,而`malloc` 在分配内存失败时会返回空指针（`NULL`），我们可以通过检查返回值来判断是否分配成功
+5. ### `new`是`c++`中提供的,而 `malloc` 是`c`标准库中的函数，位于`<cstdlib>` 头文件中,但是两者都可以在`c++`中使用
+6. ### `new`可以被重载,允许自定义的内存管理策略.而`malloc`是第三方的不支持重载
+
+## 对多态的理解 <mark style="color:red;">提问次数:9次</mark>
 
 答:`多态`是面向对象的三大特征之一,其他两个分别是`封装`和`继承`,此处我们讨论一下多态,多态见名知义就是多种形态,在`c++`中其分为两种:
 
@@ -15,7 +96,7 @@
 
     其本质上是继承的前提下,通过在父类中声明`虚函数`,虚函数分为两种`普通虚函数`和`纯虚函数`的区别在于一个可以有函数体,另一个必须没有,且被替换为`=0;`如果是普通的`虚函数`,则重写与否都不影响正常使用,而对于`纯虚函数`的话必须重写,然后将父类指针或者引用指向子类对象来实现`动态多态`,其本质上是当我们在类中声明了一个`虚函数时`,编译器则会为父类和所有的子类都创建一个为指针数组的`虚函数表`,其中存储的是所有`虚函数`的`地址`,而当我们创建一个子类对象的时候,编译器会在子类的构造函数中为对象创建一个`虚指针`,并给其赋值指向`虚函数表`,当我们使用的时候我们就可以通过子类的`虚指针`找到`虚函数表`,然后再根据`虚函数`的地址进行调用,进而达到动态多态的目的,当然父类的析构函数必须设置为`虚析构函数`,这样可以避免子类开辟空间后没有正确释放.而且动态多态则是在运行时期的
 
-## `C++11`新特性中的智能指针 <mark style="color:red;">提问次数: 5次</mark>
+## `C++11`新特性中的智能指针 <mark style="color:red;">提问次数: 8次</mark>
 
 答:智能指针其本质通过模板类以及重载了`*`和`->`操作符来实现的,其本质是一种`RAII`技术,所谓的`RAII`的意思就是资源获取就是初始化,通过在类的构造函数中初始化数据,打开网络或者文件资源等,将其资源的释放和关闭放在析构函数中,当创建对象和释放对象的时候就会常见和释放资源.智能指针就是`RAII`技术的以及典型应用,智能指针主要分为三种:
 
@@ -29,11 +110,129 @@
 
     主要用于解决共享智能指针之间的循环引用问题,指向共享指针的那片内存时不会导致计数器加一
 
-***
+## 单例模式的运用和实现 <mark style="color:red;">提问次数: 7次</mark>
+
+单例模式的话是一种创建型设计模式,他分为三种:饿汉式,懒汉式,以及局部静态变量,然后饿汉式的话就是直接创建一个私有的全局对象,然后再创建一个静态成员函数,然后通过这个方法就可以获取当前类的一个唯一实例对象,懒汉式的话,则是在调用的时候才创建对象并返回对象的实例,而局部静态变量的话,则是创建一个局部静态变量的对象,然后进行返回,单例模式本质不是线程安全的,我们需要通过使用双重判断并加锁来达到线程安全的目的
+
+1.  ### 饿汉式
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <iostream>
+
+    class SingletonHungry {
+    private:
+        static SingletonHungry instance;
+
+        SingletonHungry() {
+            std::cout << "SingletonHungry instance created." << std::endl;
+        }
+
+    public:
+        static SingletonHungry& getInstance() {
+            return instance;
+        }
+
+        // Other member functions...
+    };
+
+    SingletonHungry SingletonHungry::instance;  // Initialize the static member
+
+    int main() {
+        SingletonHungry& obj1 = SingletonHungry::getInstance();
+        SingletonHungry& obj2 = SingletonHungry::getInstance();
+
+        // obj1 and obj2 refer to the same instance
+        return 0;
+    }
+    ```
+    {% endcode %}
+2.  ### 懒汉式
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <iostream>
+    #include <mutex>
+
+    class SingletonLazy {
+    private:
+        static SingletonLazy* instance;
+        static std::mutex mtx;
+
+        SingletonLazy() {
+            std::cout << "SingletonLazy instance created." << std::endl;
+        }
+
+    public:
+        static SingletonLazy& getInstance() {
+            std::lock_guard<std::mutex> lock(mtx);
+            if (instance == nullptr) {
+                instance = new SingletonLazy();
+            }
+            return *instance;
+        }
+
+        // Other member functions...
+
+        ~SingletonLazy() {
+            delete instance;
+        }
+    };
+
+    SingletonLazy* SingletonLazy::instance = nullptr;
+    std::mutex SingletonLazy::mtx;
+
+    int main() {
+        SingletonLazy& obj1 = SingletonLazy::getInstance();
+        SingletonLazy& obj2 = SingletonLazy::getInstance();
+
+        // obj1 and obj2 refer to the same instance
+        return 0;
+    }
+    ```
+    {% endcode %}
+3.  ### 局部静态变量
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <iostream>
+
+    class SingletonLocalStatic {
+    private:
+        SingletonLocalStatic() {
+            std::cout << "SingletonLocalStatic instance created." << std::endl;
+        }
+
+    public:
+        static SingletonLocalStatic& getInstance() {
+            static SingletonLocalStatic instance;  // Local static variable
+            return instance;
+        }
+
+        // Other member functions...
+    };
+
+    int main() {
+        SingletonLocalStatic& obj1 = SingletonLocalStatic::getInstance();
+        SingletonLocalStatic& obj2 = SingletonLocalStatic::getInstance();
+
+        // obj1 and obj2 refer to the same instance
+        return 0;
+    }
+    ```
+    {% endcode %}
+
+## 虚函数及原理? <mark style="color:red;">提问次数5次</mark>
 
 ## `c++`中的多线程的理解 <mark style="color:red;">提问次数: 4次</mark>
 
 答:常用的类有`Thread`类比如可以使用在构造函数中传入一个函数指针来执行线程任务,不过通常使用`lambda`表达式,其它参数可以写参数,然后使用`join()`阻塞主进程等待子进程结束,也可以使用`detach()`将两个线程分离,不过主线程结束时子线程可能还没执行,所以可能需要一些演示操作.关于多线程的话我们可以使用锁机制来保证线程同步,比如`互斥锁`,`唯一锁`以及`条件变量`,`原子操作`.关于线程间的通信的话主要是互斥锁,条件变量,以及共享内存来实现的也可以通过`thread::get_id()`获取线程的`ID`,也可以通过`this_thread::sleep_for()`来进行线程睡眠,其中的参数为`chrono::`常用的方法有`seconds(int)`以及`millseconds(int)`来达到线程睡眠的目的
+
+## 谈谈快速排序的思想 <mark style="color:red;">提问次数4次</mark>
+
+
+
+
 
 ## 线程同步的方式有哪些? <mark style="color:red;">提问次数: 4次</mark>
 
@@ -145,88 +344,7 @@
     ```
     {% endcode %}
 
-## `STL`的常用容器,以及使用场景 <mark style="color:red;">提问次数: 4次</mark>
-
-1. ### vector
-   1.  ### 容器介绍:&#x20;
-
-       `vector`底层是基于一个数组实现的动态数组,其本质为一个单端数组只能在尾部操作数据,默认是有序的是按照插入元素的顺序,而且允许重复
-   2.  ### 访问方式:
-
-       `vector`可以使用随机访问,也支持使用迭代器访问
-   3.  ### 增删元素的特点:
-
-       在尾部增加元素的时候效率比较高,但是在头部或者中间插入元素的时候效率比较低,因为涉及到移位操作,所以在头部和中间增删元素的时候效率比较低
-2. ### List
-   1.  ### 容器介绍:
-
-       `List`的底层是双向循环链表来实现的,它的元素是有序的按照插入的顺序,可以重复
-   2.  ### 访问方式:
-
-       只能通迭代器访问,不能随机访问,只能使用`++`/`--`,不能使用`+5`/`+6`这种操作
-   3.  ### 增删元素的特点
-
-       增删元素效率比较,只需要前后元素进行连接,然后将当前节点空间释放即可,但是查询指点元素时效率比较低,简单地说就是增删效率比较高,查询元素以及进行修改时效率比较低,因为要先找到它,才能进行修改
-3. ### queue
-   1.  ### 容器介绍:
-
-       `queue`是受限容器中的一种,其本质是一种单端队列,队列的特点的话就是先进先出,后进后出,队尾进队头出.元素是有序的,按照入队的顺序,元素可以重复
-   2.  ### 访问方式:
-
-       只能在队头出队,在队尾入队,没有迭代器,不能使用随机访问元素,只能使用`pop()`来实现出队效果,以及`push()`来实现入队效果
-   3.  ### 增删元素的特点:
-
-       单端队列的操作元素方式单一,在队头查询删除效率比较高,队尾增加效率比较高
-
-
-4. ### stack
-   1.  ### 容器介绍
-
-       也是一种受限容器,它的特点是先进后出,元素是从栈顶使用栈帧压入栈底,取元素的时候,只能从栈顶逐个拿出,栈中的元素的顺序是按照插入的元素排列的
-   2.  ### 访问方式
-
-       栈的访问方式是只能从栈顶取出元素,使用`pop()`,使用`top()`来查看栈顶元素,以及使用`push()`来将元素压入栈底,没有迭代器也不支持随机访问
-   3.  ### 增删元素的特点
-
-       栈只能在栈顶弹出,以及压入元素到栈底所以在栈顶的增加弹出以及访问元素的效率比较高,栈底和栈中的元素访问效率就很差
-5. ### map
-   1.  ### 容器介绍
-
-       `map`的底层是基于红黑树实现的,其中存储的是一个对组,对组中包含的是`key,value`形式,元素顺序的话是按照键的顺序排列的,有序,而且元素不允许重复,每个键是唯一,如果插入一个已经存在的键，它将会更新该键对应的值，而不是保留旧值。
-   2.  ### 访问方式
-
-       `map`的访问方式是通过迭代器访问遍历对组,通过对组的`first`和`second`来获取键和值
-   3.  ### 增删元素的特点
-
-       查找效率比较高,但是增删改的效率比较低
-6. ## set
-   1.  ### 容器介绍
-
-       `set`的底层也是红黑树实现的,是一种特殊二叉排序树,元素是`有序的(按照键的)而且不重复,`如果插入一个已经存在的键，它将会更新该键对应的值，而不是保留旧值。
-   2.  ### 访问方式
-
-       只能通过迭代器访问,不能随机访问,添加的话使用`insert()`
-   3.  ### 增删元素的特点
-
-       它添加,查询,删除元素的效率比较高,但是修改的效率不太高
-
-## `vector`和`list`的区别是什么? <mark style="color:red;">提问次数4次</mark>
-
-1. ### `vector`的本质是一个单端数组,底层是一个动态数组,而`list`的本质是双向循环链表
-2. ### 在访问方式方面,`vector`可以通过`迭代器`,以及`中括号`和`at()`来实现访问元素,但是`list`只能使用迭代器访问元素
-3. ### 在`vector`中在头部以及中间增删元素的效率比较低,而尾部的增删效率比较高,容器本身查找效率比较高,`list`的话是增删效率比较高,但是查找和修改的效率比较低,因为都需要先遍历找到元素再操作
-4. ### `vector`和`list`的元素顺序都是有序的不过都是按照插入的顺序,而且元素也可以重复,这是两者相同的地方
-
 ***
-
-## `new`和`malloc`的区别? <mark style="color:red;">提问次数: 3次</mark>
-
-1. ### 首先两者都是用来在堆上开辟内存空间进行分配的一种实现方式
-2. ### `new`是一个关键字,而`malloc`则是一个第三方类库中的函数
-3. ### `new`的话会调用类的构造函数,当`delete`的时候也会调用其对应的`析构函数`,而malloc的话则不会,只会开辟内存空间,以及释放内存空间
-4. ### `new`开辟内存空间失败后会抛出 `std::bad_alloc` 异常，可以通过 `try-catch` 块来捕获异常并处理,而`malloc` 在分配内存失败时会返回空指针（`NULL`），我们可以通过检查返回值来判断是否分配成功
-5. ### `new`是`c++`中提供的,而 `malloc` 是`c`标准库中的函数，位于`<cstdlib>` 头文件中,但是两者都可以在`c++`中使用
-6. ### `new`可以被重载,允许自定义的内存管理策略.而`malloc`是第三方的不支持重载
 
 ## 为什么会发生内存泄漏? <mark style="color:red;">提问次数: 3次</mark>
 
@@ -234,6 +352,25 @@
 2. ### 访问了未定义的空间
 3. ### 对象之间循环引用
 4. ### 以及程序出现了异常,导致内存泄漏
+
+## 指针和引用的区别 <mark style="color:red;">提问次数: 3次</mark>
+
+1.  ### 指针本身是一个变量名,而引用则是一个别名机制,它在内存中不占用内存空间
+
+
+2.  ### 指针初始化以后可以被修改,但是引用初始化以后就不可以修改
+
+
+3.  ### 指针使用的领域比较广泛,比如全局,局部变量,以及函数的形式参数上,而引用通常是使用在函数的形式参数上
+
+
+4.  ### 而且指针可以为空,但是引用不可以为空
+
+
+5.  ### 指针的话可以指向数组的首地址,甚至是函数,而引用的话在声明是必须初始化,所以不能像指针那样灵活可以指向数组和函数
+
+
+6. ### 关于操作方式的话.指针可以使用`&`获取变量或者对象的地址,使用`*`进行解引用获取其中的值,而引用则不需要可以直接操作
 
 ## 如何实现线程间的通信? <mark style="color:red;">提问次数: 3次</mark>
 
@@ -247,119 +384,6 @@
 
     没怎么用过,记不清楚了
 
-## 单例模式的运用和实现 <mark style="color:red;">提问次数: 3次</mark>
-
-单例模式的话是一种创建型设计模式,他分为三种:饿汉式,懒汉式,以及局部静态变量,然后饿汉式的话就是直接创建一个私有的全局对象,然后再创建一个静态成员函数,然后通过这个方法就可以获取当前类的一个唯一实例对象,懒汉式的话,则是在调用的时候才创建对象并返回对象的实例,而局部静态变量的话,则是创建一个局部静态变量的对象,然后进行返回,单例模式本质不是线程安全的,我们需要通过使用双重判断并加锁来达到线程安全的目的
-
-1.  ### 饿汉式
-
-    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
-    ```cpp
-    #include <iostream>
-
-    class SingletonHungry {
-    private:
-        static SingletonHungry instance;
-
-        SingletonHungry() {
-            std::cout << "SingletonHungry instance created." << std::endl;
-        }
-
-    public:
-        static SingletonHungry& getInstance() {
-            return instance;
-        }
-
-        // Other member functions...
-    };
-
-    SingletonHungry SingletonHungry::instance;  // Initialize the static member
-
-    int main() {
-        SingletonHungry& obj1 = SingletonHungry::getInstance();
-        SingletonHungry& obj2 = SingletonHungry::getInstance();
-
-        // obj1 and obj2 refer to the same instance
-        return 0;
-    }
-    ```
-    {% endcode %}
-2.  ### 懒汉式
-
-    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
-    ```cpp
-    #include <iostream>
-    #include <mutex>
-
-    class SingletonLazy {
-    private:
-        static SingletonLazy* instance;
-        static std::mutex mtx;
-
-        SingletonLazy() {
-            std::cout << "SingletonLazy instance created." << std::endl;
-        }
-
-    public:
-        static SingletonLazy& getInstance() {
-            std::lock_guard<std::mutex> lock(mtx);
-            if (instance == nullptr) {
-                instance = new SingletonLazy();
-            }
-            return *instance;
-        }
-
-        // Other member functions...
-
-        ~SingletonLazy() {
-            delete instance;
-        }
-    };
-
-    SingletonLazy* SingletonLazy::instance = nullptr;
-    std::mutex SingletonLazy::mtx;
-
-    int main() {
-        SingletonLazy& obj1 = SingletonLazy::getInstance();
-        SingletonLazy& obj2 = SingletonLazy::getInstance();
-
-        // obj1 and obj2 refer to the same instance
-        return 0;
-    }
-    ```
-    {% endcode %}
-3.  ### 局部静态变量
-
-    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
-    ```cpp
-    #include <iostream>
-
-    class SingletonLocalStatic {
-    private:
-        SingletonLocalStatic() {
-            std::cout << "SingletonLocalStatic instance created." << std::endl;
-        }
-
-    public:
-        static SingletonLocalStatic& getInstance() {
-            static SingletonLocalStatic instance;  // Local static variable
-            return instance;
-        }
-
-        // Other member functions...
-    };
-
-    int main() {
-        SingletonLocalStatic& obj1 = SingletonLocalStatic::getInstance();
-        SingletonLocalStatic& obj2 = SingletonLocalStatic::getInstance();
-
-        // obj1 and obj2 refer to the same instance
-        return 0;
-    }
-
-    ```
-    {% endcode %}
-
 ## 信号和槽机制类似于哪种设计模式? <mark style="color:red;">提问次数: 3次</mark>
 
 观察者模式
@@ -369,6 +393,10 @@
 我不常用,所以记不清了
 
 ## 多态,虚函数,纯虚函数,虚函数指针,虚函数表之间的联系  <mark style="color:red;">提问次数:3次</mark>
+
+## 什么情况下`vector`的迭代器会失效？ <mark style="color:red;">提问次数: 3次</mark>
+
+我们在获取迭代器后,又对原来的动态数组进行了增删操作,而继续使用获取的迭代器的时候这是迭代器会失效,对于迭代器失效我们可以使用`insert(尾部迭代器,元素)` 来返回一个新的迭代器,以及使用`erase()`来擦除元素,返回一个新的迭代器,放置迭代器失效
 
 ***
 
@@ -389,25 +417,6 @@
 ## Qt中你在哪些地方使用过多线程? <mark style="color:red;">提问次数: 2次</mark>
 
 比如当我们制作一些游戏的时候比如声音和动画特效同步的时候,以及使用定时器执行定时任务
-
-## 指针和引用的区别 <mark style="color:red;">提问次数: 2次</mark>
-
-1.  ### 指针本身是一个变量名,而引用则是一个别名机制,它在内存中不占用内存空间
-
-
-2.  ### 指针初始化以后可以被修改,但是引用初始化以后就不可以修改
-
-
-3.  ### 指针使用的领域比较广泛,比如全局,局部变量,以及函数的形式参数上,而引用通常是使用在函数的形式参数上
-
-
-4.  ### 而且指针可以为空,但是引用不可以为空
-
-
-5.  ### 指针的话可以指向数组的首地址,甚至是函数,而引用的话在声明是必须初始化,所以不能像指针那样灵活可以指向数组和函数
-
-
-6. ### 关于操作方式的话.指针可以使用`&`获取变量或者对象的地址,使用`*`进行解引用获取其中的值,而引用则不需要可以直接操作
 
 ## 你对`static`的理解 <mark style="color:red;">提问次数: 2次</mark>
 
@@ -436,6 +445,10 @@
 
     普通成员函数可以实现多态,因为它们的调用取决于实际的对象类型,而静态的话则是不参与多态,因为它是和类的类型绑定的
 
+## 基类析构函数为什么要定义为虚函数 <mark style="color:red;">提问次数: 2次</mark>
+
+因为当我们调用父类的析构函数的时候子类可能也开辟了新的内存空间,如果不将基类的析构函数设置为虚析构函数的话,子类开辟的内存空间就可能没有释放,导致内存泄漏,这样当释放父类指针的时候,编译器会自动调用子类的析构函数释放内存空间
+
 ## `c++`的内存结构是什么样的? <mark style="color:red;">提问次数: 2次</mark>
 
 c++的内存结构的话主要分为五个区:
@@ -456,6 +469,32 @@ c++的内存结构的话主要分为五个区:
 
     这里存储的是程序的执行代码,一般都是只读的不允许写入
 
+## 谈谈你对`Tcp`的了解? <mark style="color:red;">提问次数: 2次</mark>
+
+`Tcp`的话是`Transmission control protocol`,也就是传输控制协议,它是一种面向链接的,可靠的,它是一个基于网络层的`IP`协议的一个传输协议,然后tcp的话,最经典的问题那就绕不开,三次握手和四次挥手,
+
+1.  ### tcp的三次握手
+
+    三次握手的过程简单的描述的话就是客户端像服务器发起连接请求,服务器回应客户端表示收到请求,客户端继续发送信息给服务器表示自己可以收到服务器的信息,至此Tcp的三次握手结束,此时连接已经建立
+2.  ### tcp的四次挥手
+
+    而对于四次握手的时候是客户端向服务器发送断开请求,表示不再发送数据,然后进入关闭等待状态`(FIN_WAIT_1)`,服务端收到后会发送给客户端确认关闭的ACK,然后自己进入等待关闭状态`(CLOSE_WAIT)`,此时服务器依旧可以给客户端发送数据,然后第三次挥手的话是服务器发送断开连接请求表示不再发送数据,进入最后确认`(LAST_ACK)`状态,然后客户端收到后会回应确认的`ACK`表示已经收到断开请求确认,然后会进入超时等待状态也就是`TIME_WAIT,`然后会在等待两个报文周期后,断开连接
+3.  ### 为什么握手是三次而不是两次或者四次?
+
+    因为三次握手可以保证客户端和服务器双方都可以收发消息,所以不需要两次,三次可以解决的问题也不需要使用四次
+4.  ### 为什么握手需要三次挥手需要四次?
+
+    因为在第二次挥手的时候服务器虽然收到了客户端的断开链接请求,然后回复一个确认关闭的`ack`,然后进入了等待关闭状态,但是此时依旧可以发送数据,直到第三次挥手的时候服务器才发送给客户端断开链接请求,表示不再发送数据,并进入最后确认状态,然后收到会才会回复断开请求,并进入超时关闭状态
+
+
+5.  ### 为什么客户端发送完断开请求以后还需要等待两个报文周期呢?
+
+    因为网络环境是复杂的,虽然客户端收到了服务器的断开链接请求,表示不再发送数据,并进入了超时等待状态,但是并不能保证服务器一定会收到这个确认信息,如果服务器没有收到的话,会继续发送关闭连接请求,如果两个报文周期内没有再次收到服务器发送的确认关闭连接请求,那么就默认服务器已经收到确认信息,然后就可以断开连接了
+
+## 谈谈你对`udp`的了解? <mark style="color:red;">提问次数: 2次</mark>
+
+## 谈谈你对`lambda`表达式的理解,以及注意事项  <mark style="color:red;">提问次数2次</mark>
+
 ## `Qt`中连接数据库的过程,以及如何显示数据? <mark style="color:red;">提问次数: 2次</mark>
 
 1. ### 获取所有可以使用的驱动字符串列表
@@ -475,10 +514,6 @@ c++的内存结构的话主要分为五个区:
       1. 先创建关联表模型对象,比如:`auto stuTableModel = new QSqlRelationalTableModel(this);`
       2. 然后使用`setTable("表名");`来设置使用的第一张表
       3. 然后使用`setRelation(6, QSqlRelation("dept", "dno", "dname"));`来设置关联信息第一个参数是当前表中用来关联的列名,而第二个参数则使用过一个`QSqlRelation()`来创建一个新的`QSqlRealtion`来设置关联关系,第一个参数是表名,第二个是这个表用来关联的列名,第三个参数是要替换成的列名
-
-## 什么情况下`vector`的迭代器会失效？ <mark style="color:red;">提问次数: 2次</mark>
-
-我们在获取迭代器后,又对原来的动态数组进行了增删操作,而继续使用获取的迭代器的时候这是迭代器会失效,对于迭代器失效我们可以使用`insert(尾部迭代器,元素)` 来返回一个新的迭代器,以及使用`erase()`来擦除元素,返回一个新的迭代器,放置迭代器失效
 
 ## `Map`的底层,`Map`有无排列顺序,怎么让他的顺序变为降序? <mark style="color:red;">提问次数: 2次</mark>
 
@@ -544,10 +579,6 @@ timer->start(1000); // 每隔1000毫秒（1秒）触发一次timeout信号
 xml是可扩展标记语言,通常用来传输数据,其中的数据表现形式是使用标签进行存储,不过后来大部分改用JSON了
 
 ## 动态链接库的理解 <mark style="color:red;">提问次数: 1次</mark>
-
-## 基类析构函数为什么要定义为虚函数 <mark style="color:red;">提问次数: 1次</mark>
-
-因为当我们调用父类的析构函数的时候子类可能也开辟了新的内存空间,如果不将基类的析构函数设置为虚析构函数的话,子类开辟的内存空间就可能没有释放,导致内存泄漏,这样当释放父类指针的时候,编译器会自动调用子类的析构函数释放内存空间
 
 ## `map`和`unordered_map`的区别是什么? <mark style="color:red;">提问次数: 1次</mark>
 
@@ -662,10 +693,6 @@ xml是可扩展标记语言,通常用来传输数据,其中的数据表现形式
 
 ## ab通信 a每秒生成10种数据每个数据 100数据 实时发送 b实时接数据 并解析出正确的数据类型,说一下B 的接收?B端的通信.如何保持数据一致? <mark style="color:red;">提问次数: 1次</mark>
 
-## 谈谈你对`Tcp`的了解? <mark style="color:red;">提问次数: 1次</mark>
-
-## 谈谈你对`udp`的了解? <mark style="color:red;">提问次数: 1次</mark>
-
 ## `udp`能保证不丢包吗?如何解决呢? <mark style="color:red;">提问次数: 1次</mark>
 
 ## 谈谈`Tcp`的三次握手和四次挥手,为什么握手和挥手不是两次或者四次? <mark style="color:red;">提问次数: 1次</mark>
@@ -734,8 +761,6 @@ xml是可扩展标记语言,通常用来传输数据,其中的数据表现形式
 
 ## 重载与重写的区别? <mark style="color:red;">提问次数1次</mark>
 
-## 谈谈你对`lambda`表达式的理解,以及注意事项  <mark style="color:red;">提问次数1次</mark>
-
 ## 堆中变量和栈中变量的区别? <mark style="color:red;">提问次数: 1次</mark>
 
 ## 能不能手动在栈上申请空间? <mark style="color:red;">提问次数: 1次</mark>
@@ -757,3 +782,169 @@ xml是可扩展标记语言,通常用来传输数据,其中的数据表现形式
 ## 数据库主键可以重复吗，有什么用 <mark style="color:red;">提问次数: 1次</mark>
 
 ## 视图的特点 <mark style="color:red;">提问次数: 1次</mark>
+
+## c中如何实现一个字节对齐 提问次数:1次
+
+可以使用`#pragma pack`宏指令,举例如下
+
+<pre class="language-cpp" data-title="" data-overflow="wrap" data-line-numbers data-full-width="false"><code class="lang-cpp"><strong>// #pragma 是一个预处理器指令，用于告诉编译器执行一些特定的操作。
+</strong><strong>// pack 是告诉编译器修改结构体对齐方式的关键字。
+</strong><strong>// push, 1 表示将当前的对齐状态（字节对齐）压栈，并设置新的对齐状态为1字节。这就是说，后续的结构体成员将按照1字节对齐。
+</strong><strong>#pragma pack(psushm,1) 
+</strong>
+struct AStruct{
+    int number1;
+};
+// #pragma pack 的 pop 表示弹出栈，即恢复之前保存的对齐状态。恢复之前的对齐状态，即将对齐状态还原为之前保存的状态。
+#pragma pack(pop)
+</code></pre>
+
+## 在C下如何实现浮点数的比较?
+
+在C语言中，浮点数的比较涉及到浮点数表示的精度问题，因为浮点数在计算机中是以二进制形式表示的，可能存在精度损失。因此，直接使用等号 `==` 进行浮点数比较可能不太可靠。通常推荐使用一个小的误差范围来比较浮点数。判断两个数是否落在我们可以接受的误差区间也就是ε(伊普斯龙),用程序表示的话就是:
+
+{% code title="" overflow="wrap" lineNumbers="true" fullWidth="false" %}
+```cpp
+#include <math.h>
+
+// 定义一个很小的误差范围，根据具体情况调整
+#define EPSILON 1e-9
+
+// 比较两个浮点数是否相等
+int float_equals(float a, float b) {
+    // fabs() 获取绝对值
+    return fabs(a - b) < EPSILON;
+}
+
+// 示例用法
+int main() {
+    float x = 0.1 + 0.2;
+    float y = 0.3;
+
+    if (float_equals(x, y)) {
+        printf("x and y are equal\n");
+    } else {
+        printf("x and y are not equal\n");
+    }
+
+    return 0;
+}
+
+```
+{% endcode %}
+
+## 什么是僵尸进程?
+
+简单的说就是进程已经退出,但是在进程表中的一些信息依旧保留着,直到父进程调用等待或者等待pid的方法获取这些信息后,僵尸进程才会被清理,它通常不会占用系统资源,但是如果积累了大量的僵尸进程的话,导致系统中的进程表满,可能会影响系统的正常运行,所以需要及时清理僵尸进程,
+
+## 如何清理僵尸进程?
+
+清理僵尸进程的方法主要有两种：
+
+1.  ### 通过父进程主动回收子进程
+
+    父进程可以定期调用 `wait` 或 `waitpid` 系统调用，或者在接收到 `SIGCHLD` 信号时调用这些函数，以等待子进程的退出并获取其终止状态。这样就可以及时清理僵尸进程。
+
+    {% code title="" overflow="wrap" lineNumbers="true" %}
+    ```cpp
+    #include <sys/wait.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+    #include <unistd.h>
+
+    int main() {
+        pid_t child_pid = fork();
+
+        if (child_pid == -1) {
+            // 处理 fork 失败的情况
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        if (child_pid == 0) {
+            // 子进程的代码
+            exit(EXIT_SUCCESS);
+        } else {
+            // 父进程的代码
+            // 定期或在接收到 SIGCHLD 信号时调用 wait 或 waitpid
+            sleep(10); // 等待一段时间模拟父进程的其他操作
+            wait(NULL);
+        }
+
+        return 0;
+    }
+    ```
+    {% endcode %}
+2.  ### 通过忽略 `SIGCHLD` 信号。
+
+    父进程可以通过注册信号处理函数将 `SIGCHLD` 信号的处理动作设置为 `SIG_IGN`，表示忽略该信号。这样当子进程结束时，内核会立即清理子进程的资源。
+
+    {% code title="" overflow="wrap" lineNumbers="true" fullWidth="true" %}
+    ```cpp
+    #include <signal.h>
+    #include <unistd.h>
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    void handle_sigchld(int signo) {
+        // 什么都不做，即忽略 SIGCHLD 信号
+    }
+
+    int main() {
+        // 注册信号处理函数，将 SIGCHLD 的处理动作设置为 SIG_IGN
+        signal(SIGCHLD, handle_sigchld);
+
+        pid_t child_pid = fork();
+
+        if (child_pid == -1) {
+            // 处理 fork 失败的情况
+            perror("fork");
+            exit(EXIT_FAILURE);
+        }
+
+        if (child_pid == 0) {
+            // 子进程的代码
+            exit(EXIT_SUCCESS);
+        } else {
+            // 父进程的代码
+            sleep(10); // 等待一段时间模拟父进程的其他操作
+        }
+
+        return 0;
+    }
+
+    ```
+    {% endcode %}
+
+## 信号槽和普通函数的区别是什么?<mark style="color:red;">提问次数1次</mark>
+
+## 平衡二叉树的理解 <mark style="color:red;">提问次数1次</mark>
+
+## `vector`中删除和增加元素 <mark style="color:red;">提问次数1次</mark>
+
+## `MySQL`下三种删除的区别?<mark style="color:red;">提问次数1次</mark>
+
+## 查询一个数据多的表要怎么优化?<mark style="color:red;">提问次数1次</mark>
+
+## 查询两个列要用什么?<mark style="color:red;">提问次数1次</mark>
+
+## `union`和`union all`的区别是什么?<mark style="color:red;">提问次数1次</mark>
+
+## MySQL中左右连接的区别是什么?<mark style="color:red;">提问次数1次</mark>
+
+## 怎么判断链表有环?<mark style="color:red;">提问次数1次</mark>
+
+## 单例模式和全局变量的区别?<mark style="color:red;">提问次数1次</mark>
+
+## 全局变量和局部变量的区别?<mark style="color:red;">提问次数1次</mark>
+
+## 数组指针和指针数组的区别是什么?<mark style="color:red;">提问次数1</mark>
+
+## 如何实现一个鼠标的点击事件?<mark style="color:red;">提问次数1</mark>
+
+## 谈谈你对`this`指针的理解<mark style="color:red;">提问次数1</mark>
+
+## 谈谈你对普通成员和静态的区别?<mark style="color:red;">提问次数1</mark>
+
+## `struct`和`union`的区别?<mark style="color:red;">提问次数1</mark>
+
