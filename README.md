@@ -1,4 +1,4 @@
-# 一些c++以及Qt相关的面试题
+# 一些`c++`以及`Qt`相关的面试题
 
 
 # 目录:
@@ -13,5 +13,5 @@
 ## [Qt](https://github.com/walkingtyphoon/shark-s-book/wiki/Qt)<br>
 ## [SQL](https://github.com/walkingtyphoon/Summary-of-cplusplus-and-Qt-interview-questions/wiki/SQL)
 
-# 这是我们总结的一些C++以及Qt,数据结构和算法相关的面试题,希望对大家有帮助
+# 这是我们总结的一些`C++`以及`Qt`,`Linux`、`数据结构`、`算法`、`设计模式`、`计算机网络`相关的面试题,希望对大家有帮助
 # 如果你也希望加入我们,请联系我们walking_typhoon@163.com
